@@ -18,6 +18,8 @@ struct LogFormView: View {
     @State var amount: Double = 0
     @State var category: Category = .utilities
     @State var date: Date = Date()
+    @State private var selectedGroup: String = "" // New state for group selection
+    var groups: [String] = ["Group 1", "Group 2", "Group 3"] // Example group list
     
     @Environment(\.presentationMode)
     var presentationMode
@@ -42,6 +44,14 @@ struct LogFormView: View {
                 }
                 DatePicker(selection: $date, displayedComponents: .date) {
                     Text("Date")
+                }
+                
+                Section(header: Text("Group")) {
+                    Picker("Select Group", selection: $selectedGroup) {
+                        ForEach(groups, id: \.self) { group in
+                            Text(group)
+                        }
+                    }
                 }
             }
 
