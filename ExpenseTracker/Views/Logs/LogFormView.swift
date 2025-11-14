@@ -18,7 +18,9 @@ struct LogFormView: View {
     @State var amount: Double = 0
     @State var category: Category = .utilities
     @State var date: Date = Date()
-    @State private var selectedGroup: String = "" // New state for group selection
+    @State private var expenseType: String = "Individual" // New state for expense type
+    @State private var selectedGroup: String = "" // State for group selection
+    @State private var newGroupName: String = "" // State for new group creation
     var groups: [String] = ["Group 1", "Group 2", "Group 3"] // Example group list
     
     @Environment(\.presentationMode)
@@ -46,11 +48,24 @@ struct LogFormView: View {
                     Text("Date")
                 }
                 
-                Section(header: Text("Group")) {
-                    Picker("Select Group", selection: $selectedGroup) {
-                        ForEach(groups, id: \.self) { group in
-                            Text(group)
+                Section(header: Text("Expense Type")) {
+                    Picker("Type", selection: $expenseType) {
+                        Text("Individual").tag("Individual")
+                        Text("Group").tag("Group")
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                }
+
+                if expenseType == "Group" {
+                    Section(header: Text("Group")) {
+                        Picker("Select Group", selection: $selectedGroup) {
+                            ForEach(groups, id: \.self) { group in
+                                Text(group)
+                            }
                         }
+
+                        TextField("New Group Name", text: $newGroupName)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
                     }
                 }
             }

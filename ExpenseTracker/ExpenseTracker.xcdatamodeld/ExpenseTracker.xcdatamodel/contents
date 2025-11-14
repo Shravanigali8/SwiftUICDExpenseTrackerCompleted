@@ -5,18 +5,19 @@
         <attribute name="category" optional="YES" attributeType="String"/>
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="name" optional="YES" attributeType="String"/>        <relationship name="group" destinationEntity="Group" toMany="NO" deleteRule="Nullify"/>
-        <relationship name="user" destinationEntity="User" toMany="NO" deleteRule="Nullify"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="group" destinationEntity="Group" toMany="NO" deleteRule="Nullify" inverseName="expenses" inverseEntity="Group"/>
+        <relationship name="user" destinationEntity="User" toMany="NO" deleteRule="Nullify" inverseName="expenses" inverseEntity="User"/>
     </entity>
     <entity name="Group" representedClassName="Group" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="NO" attributeType="String"/>
-        <relationship name="expenses" destinationEntity="ExpenseLog" toMany="YES" deleteRule="Nullify"/>
-        <relationship name="members" destinationEntity="User" toMany="YES" deleteRule="Nullify"/>
+        <relationship name="expenses" destinationEntity="ExpenseLog" toMany="YES" deleteRule="Cascade" inverseName="group" inverseEntity="ExpenseLog"/>
+        <relationship name="members" destinationEntity="User" toMany="YES" deleteRule="Nullify" inverseName="groups" inverseEntity="User"/>
     </entity>
     <entity name="User" representedClassName="User" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="NO" attributeType="String"/>
-        <relationship name="groups" destinationEntity="Group" toMany="YES" deleteRule="Nullify"/>
-        <relationship name="expenses" destinationEntity="ExpenseLog" toMany="YES" deleteRule="Nullify"/>
+        <relationship name="groups" destinationEntity="Group" toMany="YES" deleteRule="Nullify" inverseName="members" inverseEntity="Group"/>
+        <relationship name="expenses" destinationEntity="ExpenseLog" toMany="YES" deleteRule="Cascade" inverseName="user" inverseEntity="ExpenseLog"/>
     </entity>
     <elements>
         <element name="ExpenseLog" positionX="-63" positionY="-18" width="128" height="118"/>
